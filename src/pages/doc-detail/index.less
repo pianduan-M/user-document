@@ -1,0 +1,153 @@
+.document_detail {
+  position: relative;
+  background-color: #fff;
+  padding: 35px 0;
+  max-width: 700px;
+  margin: 0 auto;
+  padding-left: 50px;
+
+  .document_main {
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin: 52px 0 1.2em;
+      line-height: 1.2;
+      position: relative;
+      font-weight: 500;
+
+      &::before {
+        content: "";
+        display: block;
+        margin-top: -96px;
+        height: 96px;
+        visibility: hidden;
+      }
+    }
+
+    ul {
+      list-style: disc !important;
+    }
+
+    li {
+      p {
+        display: inline-block;
+        padding-left: 20px;
+      }
+    }
+
+    pre,
+    code {
+      background-color: #f8f8f8;
+      width: 100%;
+      display: block;
+      padding: 30px;
+      border-radius: 10px;
+      overflow-y: hidden;
+      margin: 20px 0;
+    }
+    pre{
+      code {
+        padding: 0;
+        margin: 0;
+      }
+    }
+    h1 {
+      font-size: 18px;
+    }
+
+    h2 {
+      font-size: 18px;
+    }
+
+    h3 {
+      font-size: 16px;
+    }
+
+    ul {
+      padding-left: 30px;
+    }
+
+    .document_title {
+      font-size: 28px;
+
+    }
+  }
+
+  .document_sideMenu {
+    position: fixed;
+    left: 0;
+    top: 0px;
+    bottom: 0;
+    padding-top: 100px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    transition: 0.5s transform;
+    
+
+    li {
+      padding-right: 30px;
+      margin-top: 10px;
+      white-space: nowrap;
+      list-style: none;
+      color: #363636;
+      font-size: 15px;
+    }
+
+    h2,h3 {
+      font-weight: 600;
+      color: #273849;
+      font-size: 15px;
+      color: inherit;
+      line-height: 2;
+    }
+
+    ul {
+      padding-left: 30px;
+    }
+
+    // 当前点击高亮
+    .active {
+      color: @primary-color;
+    }
+
+  }
+
+  .open.document_sideMenu {
+    transform: translateX(0);
+  }
+}
+
+// 修正 1000px 左右 内容区位置错误
+@media screen and (max-width: 1300px) {
+  .document_content {
+    margin-left: 200px;
+  }
+}
+
+// 移动端布局
+@media (max-width:750px) {
+  .document_sideMenu {
+    transform: translateX(-100%);
+  }
+
+  .document_detail {
+    padding-left: 0 !important;
+
+    .document_main {
+      padding: 0 20px;
+    }
+
+    .document_content {
+      margin-left: 0px;
+      margin: 0 auto;
+
+    }
+  }
+
+}

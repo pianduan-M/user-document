@@ -1,0 +1,47 @@
+.rich_text_edit {
+  padding: 2%;
+  background-color: #fff;
+
+  // 富文本编辑器样式
+  .rdw-editor-wrapper {
+
+    // 工具栏
+    .rdw-editor-toolbar {
+      position: fixed;
+      left: 0;
+      top: 120px;
+      right: 0;
+      display: flex;
+      z-index: 999;
+      justify-content: center;
+      background: none;
+      border: none;
+   
+      .rdw-option-wrapper,
+      .rdw-dropdown-wrapper {
+        background: none;
+      }
+    }
+  }
+
+  //文章标题
+  .doc_title {
+    width: 100%;
+
+    input {
+      width: 100%;
+      border: none;
+      outline: none;
+      padding: 5px 0;
+      border-bottom: 1px solid #919191;
+      font-size: 20px;
+      font-weight: 400;
+    }
+  }
+
+  // 文章内容
+  .doc_content {
+    padding: 30px 0;
+    min-height: 1200px;
+  }
+}

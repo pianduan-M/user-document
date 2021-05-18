@@ -1,0 +1,135 @@
+.header-nav {
+
+  .navbar_inner {
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 0;
+    padding: 0 1rem;
+    z-index: 1001;
+    background-color: #fff;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .05);
+    height: 64px;
+  }
+
+  // 遮罩层
+  .sidebar_mask {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.5 opacity, visibility;
+  }
+
+  // 侧边导航
+  .navbar_sidebar_wrap {
+    max-width: 300px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #fff;
+    overflow: auto;
+    transform: translate3d(-100%, 0, 0);
+    transition: 0.5s;
+
+    // 头像
+    .left-nav {
+      width: 80vw;
+      background-color: #fff;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+
+  // 左侧logo
+  .left-nav {
+    display: inline-block;
+
+    // height: 100%;
+    .nav-logo {
+      width: 40px;
+      height: 40px;
+      overflow: hidden;
+      border-radius: 50%;
+      margin: 10px;
+    }
+
+  }
+
+  // 右侧功能菜单
+  .right-menu {
+    float: right;
+    margin: 0;
+    height: 60px;
+    line-height: 60px;
+
+    .nav_item {
+      position: relative;
+      display: inline-block;
+      margin: 0 0.6em;
+      font-weight: 500;
+      font-size: 16px;
+  
+    }
+
+    .nav_item:hover a {
+      color: @primary-color;
+    }
+
+
+    .nav_search_btn {
+      width: 100px;
+      text-align: left;
+      color: #919191;
+    }
+  }
+
+  // 导航栏切换菜单按钮
+  .navbar_toggle {
+    display: none;
+  }
+
+  // 显示侧边栏
+  .show .navbar_sidebar_wrap {
+    transform: translate3d(0, 0, 0) !important;
+  }
+
+  // 侧边栏遮罩
+  .show .sidebar_mask {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+// 媒体查询 750px 时的样式
+@media (max-width: 750px) {
+
+  .header-nav {
+    .navbar_toggle {
+      display: inherit;
+    }
+
+    .nav_item {
+      display: none !important;
+    }
+
+    .right-menu {
+      .nav_search_btn {
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        color: #919191;
+        padding: 0;
+
+        .btn_text {
+          display: none;
+        }
+      }
+    }
+  }
+}

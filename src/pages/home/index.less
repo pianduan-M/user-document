@@ -1,0 +1,85 @@
+// 文档展示列表
+.doc_list {
+  padding-top: 100px;
+  margin: 0 auto;
+  width: 100%;
+  height: 110vh;
+  background-color: #f8f8f8;
+
+  // 内容标题
+  .doc_section_title {
+    position: relative;
+    text-align: center;
+    font-size: 2rem;
+    margin-top: 1rem;
+
+    .new_icon {
+      position: absolute;
+      font-size: 1rem;
+      vertical-align: top;
+      background-color: @primary-color;
+      color: #fff;
+      padding: 0.2em 0;
+    }
+  }
+
+  // 切换展示模式按钮
+  .home_switch_wrap {
+    text-align: center;
+    color: #919191;
+    margin: 0.5rem 0;
+
+    .iconfont {
+      font-size: 1.5rem;
+      padding: 0 2px;
+
+    }
+
+    .icon-streamlist {
+      font-weight: bold;
+    }
+
+    .active {
+      color: @primary-color;
+    }
+  }
+
+  // 容器
+  .home_posts_container {
+    background-color: #f8f8f8;
+
+    .row_left {
+      display: flex;
+      justify-content: center;
+      padding-right: 20px;
+    }
+
+    // 文档标题
+    .item__title {
+      font-size: 2rem;
+      color: #000;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-weight: bold;
+    }
+
+    // 文档标签
+    // .item__tags_wrap {
+    //   padding: 0.5rem 0;
+
+    //   .tags_icon {
+    //     color: #c8c8c8;
+    //   }
+
+    //   a {
+    //     margin: 0 5px;
+    //     text-decoration: underline;
+    //   }
+    // }
+
+    
+    
+
+  }
+}

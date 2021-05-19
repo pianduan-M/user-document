@@ -5,7 +5,9 @@ import './index.less'
 class AddTags extends Component {
   constructor(props) {
     super(props);
-    const tags = props.tags || []
+
+    const tags = props.tags ? props.tags : []
+    console.log(tags);
     const isAdd = props.isAdd || false
     this.inputWidth = props.inputWidth || 100
     this.state = {
@@ -109,9 +111,11 @@ class AddTags extends Component {
   }
   componentWillReceiveProps(nextProps) {
     const { tags } = nextProps
-    this.setState({
-      tags
-    })
+    if (tags) {
+      this.setState({
+        tags
+      })
+    }
   }
   render() {
     const { tags, isAdd } = this.state;
@@ -121,7 +125,7 @@ class AddTags extends Component {
         {isAdd ?
           <input onBlur={this.handleAddTag} style={{ border: '1px solid #919191', width: this.inputWidth, margin: '0 5px', height: 21 }} type="text" onKeyUp={this.handleAddTag} />
           :
-          <span onClick={() => this.setState({ isAdd: true })} className="iconfont icon-add"></span>
+          <span onClick={() => this.setState({ isAdd: true })} className="tags_add_btn" ><span className="iconfont icon-add"></span> 添加标签</span>
         }
 
       </div>

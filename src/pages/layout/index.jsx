@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
 import { connect } from 'react-redux'
 import { receiveUser } from '@/redux/actions'
-
 // 头部内容
 import HeaderNav from "../../components/header";
 // 主页内容
@@ -33,16 +32,17 @@ class Layout extends Component {
       const userid = localStorage.getItem("userid")
       receiveUser(userid)
     }
-   
+
     return (
-      <div className="home">
+      <div className="layout">
         {/* 头部 */}
         <HeaderNav />
         {/* 内容区 */}
         <Switch>
           <Route path="/login" component={Login}></Route>
           <Route path="/admin" component={Admin}></Route>
-          <Route path="/doc-detail/:id" component={DocDetail}></Route>
+          <Route path="/doc-detail/:id" component={DocDetail} ></Route>
+          <Redirect path="doc-detail/:id" to='/doc-detail/:id' ></Redirect>
           <Route path="/tags/:keyword" component={Tags}></Route>
           <Route path="/resources" component={Resources}></Route>
           <Route path="/" component={Home}></Route>

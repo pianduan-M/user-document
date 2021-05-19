@@ -6,6 +6,7 @@ import QcEventEmitter from '@/utils/QcEventEmitter'
 
 import AdminDocument from './children/document'
 import ResourcesAdmin from './children/resources-admin'
+import ResourcesCate from './children/resources-admin/cate'
 import AdminSider from '@/components/admin-sider'
 // 文档编辑
 import Edit from "./children/edit";
@@ -54,10 +55,12 @@ class Admin extends Component {
           {/* 如果是文章写作页面就不需要侧边栏 */}
           {pathname.indexOf('edit') !== -1 ? null : <AdminSider resourcesCate={this.state.resourcesCate} selectedKeys={[pathname]} />}
           <Layout className="site-layout">
-            <Content style={{ margin: '16px' }}>
+            <Content >
               <Switch>
                 <Route path="/admin/edit" component={Edit}></Route>
                 <Route path={'/admin/document'} component={AdminDocument} ></Route>
+                <Route path={'/admin/resources/cate'} render={props => <ResourcesCate {...props} resourcesCate={this.state.resourcesCate} />} exact  ></Route>
+
                 <Route path={'/admin/resources/:name'} render={props => <ResourcesAdmin {...props} resourcesCate={this.state.resourcesCate} />}></Route>
               </Switch>
             </Content>

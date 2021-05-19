@@ -82,6 +82,7 @@ class Search extends Component {
     return (
       <Modal
         forceRender
+        zIndex={99999}
         title={
           <span style={{ display: "flex" }}>
             <Input
@@ -116,7 +117,7 @@ class Search extends Component {
             <ul className="result_list">
               {docs.map(doc => (
                 <li key={doc.id} onClick={this.closeSearch} >
-                  <Link to={'doc-detail/' + doc.id}>
+                  <Link to={'/doc-detail/' + doc.id}>
                     <div className="result_item">
                       <div className="result_icon">
                         <span className="iconfont icon-caidan"></span>

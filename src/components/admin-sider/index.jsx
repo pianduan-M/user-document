@@ -47,6 +47,9 @@ class AdminSider extends Component {
               </Menu.Item>
             ))}
           </Menu.SubMenu>
+          <Menu.Item key="/admin/resources/cate"  icon={<span className="iconfont icon-kuangjiaguanli2" style={{ margin: '0 10px 0 0' }} ></span>} onClick={this.handleSderClick('/admin/resources/cate')} >
+            资源分类
+          </Menu.Item>
         </Menu>
       </Sider>
     );

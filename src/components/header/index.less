@@ -36,6 +36,8 @@
     overflow: auto;
     transform: translate3d(-100%, 0, 0);
     transition: 0.5s;
+    color: #3c3c3c;
+    font-weight: 600;
 
     // 头像
     .left-nav {
@@ -74,7 +76,11 @@
       margin: 0 0.6em;
       font-weight: 500;
       font-size: 16px;
-  
+
+
+      &.current {
+        color: @primary-color;
+      }
     }
 
     .nav_item:hover a {
@@ -119,6 +125,10 @@
     }
 
     .right-menu {
+      .nav_search_wrap {
+        display: inherit !important;
+      }
+
       .nav_search_btn {
         width: 30px;
         height: 30px;

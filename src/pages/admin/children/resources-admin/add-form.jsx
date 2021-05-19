@@ -73,6 +73,7 @@ class AddFrom extends PureComponent {
         desc: '',
       })
       QcEventEmitter.emit('getResourcesCate')
+      this.handleCloseModal()
     } else {
       message.warning(res.msg)
     }
@@ -153,7 +154,7 @@ class AddFrom extends PureComponent {
     );
 
     return (<Modal
-      title="添加资源分类"
+      title="添加资源"
       visible={this.props.isModalVisible}
       onOk={this.saveResource}
       onCancel={this.handleCloseModal}
@@ -209,11 +210,9 @@ class AddFrom extends PureComponent {
           label="资源分类"
         >
           <Select defaultValue={cate} placeholder="选择资源分类" style={{ width: 120 }} onChange={this.handleInputValue('cate')} key={Math.random()} >
-            <Option value="开发资源">开发资源</Option>
-            <Option value="框架官网">框架官网</Option>
-            <Option value="UI官网" >UI官网</Option>
-            <Option value="开发教程">开发教程</Option>
-            <Option value="大神博客">大神博客</Option>
+            {this.props.resourcesCate.map(item => (
+              <Option key={item.name} value={item.name}>{item.name}</Option>
+            ))}
           </Select>
         </Form.Item>
       </Form>

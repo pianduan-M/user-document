@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import "./index.less";
 import { reqDocumentDetail } from '@/api'
 import QcEventEmitter from '@/utils/QcEventEmitter.js'
@@ -6,16 +6,22 @@ import { Anchor } from 'antd';
 
 const { Link } = Anchor;
 
-class DocDetail extends Component {
+class DocDetail extends PureComponent {
   constructor(props) {
     super(props);
+
+    const { id } = props.match.params
+    this.getDocumentDetail(id)
+    console.log('constructor', props);
     this.state = {
       doc: {},
-      active: ''
+      active: '',
+      id
     };
+    this.siderMenuRef = React.createRef()
   }
   static propTypes = {};
-  // 创建菜单
+  // 根据id 发送后台请求
   getDocumentDetail = async (id) => {
     const res = await reqDocumentDetail(id)
     if (res.code === 0) {
@@ -26,13 +32,24 @@ class DocDetail extends Component {
     }
   }
 
+
   // 移动端 切换菜单栏
-  toggleSideBar = () => {
+  toggleSideBar = (type) => {
+    return () => {
+      if(type==="toggle"){
+        type = !this.state.isOpen
+        console.log(type);
+      }
+      this.setState({
+        isOpen: type
+      })
+    }
+  }
+  handleMenuClick = () => {
     this.setState({
-      isOpen: !this.state.isOpen
+      isOpen: false
     })
   }
-
   // 菜单点击
   menuListClick = (title) => {
     return () => {
@@ -42,12 +59,18 @@ class DocDetail extends Component {
       })
     }
   }
+  componentWillReceiveProps(nextProps) {
+    const { id } = nextProps.match.params
+    if (id && id !== this.state.id) {
+      this.getDocumentDetail(id)
+    }
+  }
   componentDidMount() {
-    const { id } = this.props.match.params
-    this.getDocumentDetail(id)
     // 监听事件总线
-    QcEventEmitter.addListener("toggleSideBar", this.toggleSideBar)
-
+    QcEventEmitter.addListener("toggleSideBar", this.toggleSideBar('toggle'))
+    this.siderMenuRef.wrapperRef && this.siderMenuRef.wrapperRef.current.addeventlistener('touchmove', (e) => {
+      e.stoppropagation()
+    }, false)
   }
 
   componentWillUnmount() {
@@ -77,18 +100,17 @@ class DocDetail extends Component {
         );
       }
     }
-
     return (
-      <div className="document_detail" onClick={this.toggleSideBar} >
+      <div className="document_detail" onClick={this.toggleSideBar(false)} >
         <div
           className="document_main"  >
-          <h1 className="document_title">{doc.title}</h1>
+          <h1 className="document_title">{doc.title && doc.title}</h1>
           <div className="docment_content" dangerouslySetInnerHTML={{ __html: doc.content }}>
 
           </div>
         </div>
 
-        <Anchor affix={false} className={'document_sideMenu' + (isOpen ? " open" : '')} >
+        <Anchor affix={false} ref={this.siderMenuRef} className={'document_siderMenu' + (isOpen ? " open" : '')} onClick={this.handleMenuClick}  >
           {doc.menuList && createMenuNode(doc.menuList)}
         </Anchor>
       </div>

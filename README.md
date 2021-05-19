@@ -1,70 +1,112 @@
-# Getting Started with Create React App
+# 项目介绍
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+当初就是看的 vue 官网 这种markdown 风格的文档展示类网站才萌生做这个网站的。市面上有很多这种现成的模板。比我这个好很多，耐不住就是想试试自己能不能写出来，然后做着做着就写了后台管理功能。
 
-## Available Scripts
+## 项目描述
 
-In the project directory, you can run:
+项目功能主要分为两个
 
-### `npm start`
+前台的文档，前端开发资源的展示 和 后台资源的管理
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+前台功能：
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+#### 	1.首页：
 
-### `npm test`
+​				首页是文档展示页面，做了两种展示视图，点击按钮可以切换卡片跟列表展示  视图做了简单的响应式布局，适配了移动端，引入了ant Motion 的 QueueAnim 组件 做了进出场动画。
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### 	2.头部导航栏：
 
-### `npm run build`
+​				采用的常用的通栏设计 左侧用户信息 右侧功能区，功能区做了移动端适配，750px 以下 列表会隐藏 开启侧边菜单栏 ，根据左侧按钮切换。右侧只保留搜索按钮。
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### 	3.搜索页面
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+​				使用的是antd Modal 组件 主要功能实时搜索，渲染结果到列表中，并高亮显示搜索关键词，后台请求方面做了简单的节流。
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### 	4.资源列表
 
-### `npm run eject`
+​				采用卡片布局，用了antd 的grid布局组件，跟 锚点组件，点击锚点可以滚动到对应的资源位置，对于没有图片的资源 截取标题的第一个字作为头像，并随机设置了背景色，每次刷新背景色都会不一样。
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+#### 	5.文档详情页
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+​		根据文档标题生成的左侧导航栏，跟右侧的文档详情，这里遇到一个小难点就是使用 锚点工具跳转位置，浏览器总是以最顶端为基点，而项目又做了个通栏的头部导航条 会导致部分内容被遮挡，搜索了下没有找到更好的解决方法，最后在看 vue 官网的时候发现，他们是使用的一个before伪元素把锚点撑开 ，  而又不会影响到页面的布局，确实是很厉害。不过后面在看antd 的时候发现了 他们又一个锚点组件，可以设置偏移量。侧边导航栏移动端是收起来的，根据头部菜单栏切换显示隐藏，这里用到了事件总线库 events，头部组件那里根据 pathname 实现不同的切换效果，文档详情页的话 它切换的就是文档的侧边导航栏，其他页面切换的头部导航功能栏。
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+####   	6. 文档编辑页
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+​	做了两个编辑器，一个是富文本编辑器，一个markdown编辑器。
 
-## Learn More
+​	富文本编辑器用的是 基于draft-js 的 react-draft-wysiwyg 这个编辑器，使用比较简单功能页齐全，
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+​	mardown 编辑器是 使用的 showdown.js 这个库 左侧是编辑区，右侧做了预览区。
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+​	这个页面 难点在于 根据文档内容生成导航菜单栏 发送给后台保存，想了很多办法  就后用了个取巧的办法
 
-### Code Splitting
+​	使用 DOMParser 这个api 把字符串解析成dom 在遍历所有节点 ，把是h1 -h6 的节点保存到一个数组里 并给这些节点添加id 内容就是自身文本做成锚点，方便展示的时候跳转位置。还有封装了一个添加文档 tag 的小组件，点击按钮添加tag，失焦或者按回车键添加， 双击现有的tag 可以在原有位置修改。
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+#### 	7.后台管理页面
 
-### Analyzing the Bundle Size
+​	这里分为了 两个区域 文档管理 和 网站资源管理 跟文档编辑页 一样需要 登录权限，用redux 管理状态，axios 做了 请求响应拦截，每次请求都会携带token，响应拦截里 判断了后台登录权限，如果过期了，删除本地储存的token跟用户信息，layout 组件如果没有读到用户信息会直接重定向到登录页面。
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+​	文档管理做了增删改查 用的是antd  的 table 组件 编辑功能是传入 文档props 文档编辑页会根据 props 决定当前是写文档 还是修改文档， 文档的tag 标签 在 表格的展开项里做了增删改功能。
 
-### Making a Progressive Web App
+​	网站资源 根据分类名称渲染对应数据，根据 pathname 取出对应数据传给 table 组件， 功能跟文档管理一样有增删改查功能。这里把分类信息单独做成了一个页面，开始是想整合到一起，后来做的时候发现，页面太乱了，还是拎出来更好。
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+后台 用的 express mongoose 
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
+## 技术点
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+	1. 基于 react 框架 
+	2. less 
+	3. antd ui组件
+	4. redux 状态管理
+	5. events 事件总线
+	6. showdown.js 处理markdown，  react-draft-wysiwyg 富文本编辑器\
+	7. 实时搜索 关键词高亮
+	8. 等等 ...
+
+## 项目预览
+
+
+
+#### 	首页
+
+​	<img src="D:\图片\home.png" style="zoom:33%;" />
+
+<img src="D:\图片\home_1.png" style="zoom:33%;" />
+
+
+
+#### 搜索页
+
+<img src="D:\图片\search.png" style="zoom:66%;" />
+
+
+
+#### 网站资源列表
+
+<img src="D:\图片\resources.png" style="zoom:33%;" />
+
+
+
+#### 文档详情页
+
+<img src="D:\图片\doc_detail.png" style="zoom:33%;" />
+
+
+
+#### markdown 编辑页
+
+<img src="D:\图片\markdown_edit.png" style="zoom:33%;" />
+
+<img src="D:\图片\rich_edit.png" style="zoom:33%;" />
+
+
+
+#### 后台管理
+
+<img src="D:\图片\admin.png" style="zoom:33%;" />
+
+<img src="D:\图片\admin_resources.png" style="zoom:33%;" />

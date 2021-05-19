@@ -18,6 +18,13 @@ class HeaderNav extends Component {
       isSearch: false,
     };
   }
+  // 移动端点击侧边菜单栏收起侧边菜单
+  handleMenuClick = () => {
+    this.setState({
+      isSideBar: false
+    })
+  }
+
   // 打开搜索框
   openSearch = () => {
     this.setState({
@@ -59,6 +66,7 @@ class HeaderNav extends Component {
 
   render() {
     const { isSideBar, isSearch } = this.state;
+    const { pathname } = this.props.location
     return (
       <nav className="header-nav">
         {/* 导航 */}
@@ -75,10 +83,9 @@ class HeaderNav extends Component {
             </a>
           </div>
           <ul className="right-menu">
-            <li className="nav_item"> <Link to={'/'}>首页</Link> </li>
-            <li className="nav_item">文档类型</li>
-            <li className="nav_item"><Link to={'/resources'}>资源列表</Link></li>
-            <li className="nav_item"><Link to={'/admin'}>文档管理</Link></li>
+            <li className={"nav_item " + (pathname === '/' ? 'current' : '')} > <Link to={'/'}>首页</Link> </li>
+            <li className={"nav_item " + (pathname === '/resources' ? 'current' : '')} ><Link to={'/resources'}>资源列表</Link></li>
+            <li className={"nav_item " + (pathname.indexOf('admin') !== -1 ? 'current' : '')} ><Link to={'/admin'}>文档管理</Link></li>
             <li className="nav_item nav_search_wrap">
               <Button
                 shape="round"
@@ -104,14 +111,14 @@ class HeaderNav extends Component {
               </a>
             </div>
             <Menu
-              defaultSelectedKeys={["1"]}
+              defaultSelectedKeys={[pathname]}
               mode="inline"
               className="sidebar_menu"
+              onClick={this.handleMenuClick}
             >
-              <Menu.Item key="1">首页</Menu.Item>
-              <Menu.Item key="2">文档类型</Menu.Item>
-              <Menu.Item key="3">资源列表</Menu.Item>
-              <Menu.Item key="4">文档管理</Menu.Item>
+              <Menu.Item key="/"><Link to={'/'}>首页</Link></Menu.Item>
+              <Menu.Item key="/resources"><Link to={'/resources'}>资源列表</Link></Menu.Item>
+              <Menu.Item key="/admin"><Link to={'/admin'}>文档管理</Link></Menu.Item>
             </Menu>
           </div>
         </div>

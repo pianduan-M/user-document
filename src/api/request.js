@@ -37,6 +37,7 @@ export default function ajax(url, data = {}, type = "GET") {
   let promise
 
   return new Promise((resolve, reject) => {
+    message.loading("加载中")
     // get 请求
     if (type === 'GET') {
       promise = instance.get(url, {
@@ -49,6 +50,7 @@ export default function ajax(url, data = {}, type = "GET") {
     // 统一处理错误 如果成功 调用resolve 把返回值传出去 如果失败 直接提示异常信息 
 
     promise.then(res => {
+      message.destroy()
       resolve(res.data)
     })
       .catch(err => {

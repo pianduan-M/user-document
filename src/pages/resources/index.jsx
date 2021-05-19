@@ -43,7 +43,7 @@ class Resources extends Component {
       <div className="resources">
         <div className="resources_container">
           <div className="resources_sider">
-            <Anchor bounds={20} affix={false} getContainer={() => document.querySelector('.resources')} onClick={this.handleClick} >
+            <Anchor bounds={20} affix={false} targetOffset={80} onClick={this.handleClick} >
 
               {resourcesCate.map(item => (
                 <li key={item.name} >
@@ -58,9 +58,9 @@ class Resources extends Component {
                 <h2 className="category_title"><strong>{res.name}</strong></h2>
                 <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} className="resources_list">
                   {res.children.map(item => (<Col xs={12} sm={12} md={8} lg={8} xl={8} key={item.id} >
-                    <a href={item.url} className="resources_item"  key={item.id}> <div className="imgwap">
+                    <a href={item.url} className="resources_item" key={item.id}> <div className="imgwap">
                       {
-                        item.imageUrl ? <img src={item.imageUrl} alt="" /> : <div style={{ background: randomColor() }} >{item.name}</div>
+                        item.imageUrl ? <img src={item.imageUrl} alt="" /> : <div style={{ background: randomColor() }} ><span>{item.name.substring(0, 1)}</span></div>
                       }
                     </div>
                       <div className="item_info">

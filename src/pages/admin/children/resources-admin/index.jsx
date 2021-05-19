@@ -5,7 +5,7 @@ import {
   EditOutlined,
   DeleteOutlined
 } from '@ant-design/icons'
-import { reqAddResourcesCate, reqResourcesDeleteCate, reqDeleteResources } from '@/api'
+import { reqDeleteResources } from '@/api'
 import QcEventEmitter from '@/utils/QcEventEmitter'
 import './index.less'
 
@@ -105,56 +105,18 @@ class ResourcesAdmin extends Component {
     })
   }
 
-  // 删除资源分类
-  handleDeleteResources = (cateName) => {
-    return () => {
-      Modal.confirm({
-        content: '真的要删除 ' + cateName + ' 吗?',
-        onOk: async () => {
-          const res = await reqResourcesDeleteCate(cateName)
-          if (res.code === 0) {
-            message.success(res.msg)
-            QcEventEmitter.emit('getResourcesCate')
 
-          } else {
-            message.warning(res.msg)
-          }
-        }
-      })
-    }
-
-  }
-  // 添加资源分类
-  addResources = async () => {
-    const { addResValue } = this.state
-    if (!addResValue) return
-    const res = await reqAddResourcesCate(addResValue)
-    if (res.code === 0) {
-      message.success(res.msg)
-      this.setState({
-        addResValue: ''
-      })
-      QcEventEmitter.emit('getResourcesCate')
-    } else {
-      message.warning(res.msg)
-    }
-  }
   render() {
     const { isModalVisible, currentResource } = this.state
 
     const pathname = this.props.match.params.name
     const resourceCate = this.props.resourcesCate.find(item => item.name === pathname)
-    const cardTitle = (
-      <div>
-        <Button type="primary" onClick={this.handleAddResources}>添加资源分类</Button> &nbsp;
-        <Button type="primary" danger onClick={this.handleDeleteResources}>删除资源分类</Button>
-      </div>
-    )
+  
     return (
-      <Card title={cardTitle} className="resources_admin">
+      <Card title={<Button type="primary" onClick={this.handleAddResources}>添加资源</Button>} className="resources_admin">
         <Table bordered dataSource={resourceCate && resourceCate.children} rowKey="id" columns={this.columns} />;
         {/* 添加资源表单 */}
-        <AddForm isModalVisible={isModalVisible} handleCloseModal={this.handleCloseModal} resource={currentResource} />
+        <AddForm isModalVisible={isModalVisible} handleCloseModal={this.handleCloseModal} resourcesCate={this.props.resourcesCate}  resource={currentResource} />
       </Card>
     );
   }

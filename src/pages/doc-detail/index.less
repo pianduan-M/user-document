@@ -2,9 +2,9 @@
   position: relative;
   background-color: #fff;
   padding: 35px 0;
-  max-width: 700px;
+  max-width: 900px;
   margin: 0 auto;
-  padding-left: 50px;
+  padding-left: 250px;
 
   .document_main {
 
@@ -49,12 +49,14 @@
       overflow-y: hidden;
       margin: 20px 0;
     }
-    pre{
+
+    pre {
       code {
         padding: 0;
         margin: 0;
       }
     }
+
     h1 {
       font-size: 18px;
     }
@@ -73,11 +75,14 @@
 
     .document_title {
       font-size: 28px;
-
     }
+
+
   }
 
-  .document_sideMenu {
+
+
+  .document_siderMenu {
     position: fixed;
     left: 0;
     top: 0px;
@@ -88,7 +93,6 @@
     font-size: 16px;
     background-color: #f9f9f9;
     transition: 0.5s transform;
-    
 
     li {
       padding-right: 30px;
@@ -99,7 +103,8 @@
       font-size: 15px;
     }
 
-    h2,h3 {
+    h2,
+    h3 {
       font-weight: 600;
       color: #273849;
       font-size: 15px;
@@ -118,22 +123,27 @@
 
   }
 
-  .open.document_sideMenu {
+  .open.document_siderMenu {
+    width: 80%;
     transform: translateX(0);
   }
 }
 
 // 修正 1000px 左右 内容区位置错误
-@media screen and (max-width: 1300px) {
-  .document_content {
-    margin-left: 200px;
+@media (max-width: 1024px) {
+  .document_siderMenu {
+    width: 25% !important;
   }
 }
 
 // 移动端布局
 @media (max-width:750px) {
-  .document_sideMenu {
+  .document_siderMenu {
     transform: translateX(-100%);
+
+    ul {
+      padding-left: 10px !important;
+    }
   }
 
   .document_detail {
@@ -150,4 +160,6 @@
     }
   }
 
+
 }
+

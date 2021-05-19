@@ -1,5 +1,5 @@
 import request from './request'
-const BASE_URL = 'http://192.168.1.14:3001'
+const BASE_URL = '/api'
 
 export const reqAddDocment = (doc) => (request(BASE_URL + '/admin/docment/add', { ...doc }, "POST"))
 
@@ -19,7 +19,7 @@ export const reqLogin = (username, password) => (request(BASE_URL + '/login', { 
 
 export const reqAddResourcesCate = (name) => (request(BASE_URL + '/admin/resources/add_cate', { name }, 'POST'))
 
-export const reqResourcesCate = () => (request(BASE_URL + '/admin/resources/cate'))
+export const reqResourcesCate = () => (request(BASE_URL + '/resources/cate'))
 
 export const reqResourcesDeleteCate = (name) => (request(BASE_URL + '/admin/resources/delete_cate', { name }, "POST"))
 

@@ -15,35 +15,11 @@ class Edit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      type: "text",
+      type: "md",
       docObj: {},
-      isPreview: false,
     };
     this.EditorRef = React.createRef();
   }
-  // 获取编辑器的值
-  toPreview = () => {
-    const doc = this.EditorRef.current.getEditorValue();
-    const { title, htmlStr } = doc
-    const { type } = this.state
-    // 没值 直接返回
-    if (!htmlStr) {
-      return message.error("空值！")
-    }
-    const htmlNode = stringToHtml(htmlStr);
-    const parseResult = parseDom(htmlNode, type)
-    const contentHtml = parseResult.content;
-    const menuList = parseResult.menuList;
-    const docObj = {
-      title,
-      menuList,
-      content: contentHtml,
-    };
-    this.setState({
-      docObj,
-      isPreview: true,
-    });
-  };
   // 上传服务器
   saveDoc = async () => {
     // 收集数据
@@ -102,29 +78,12 @@ class Edit extends Component {
     };
   };
   render() {
-    const { type, docObj, isPreview } = this.state;
+    const { type } = this.state;
     this.id = this.props.location.query ? this.props.location.query.id : null
-
-    function createMenuNode(menuList) {
-      if (menuList instanceof Array) {
-        return (
-          <ul>
-            {menuList.map((item) => (
-              <li>
-                {
-                  <a href={"#" + item.title} style={{ marginLeft: 10 * item.level }} >{item.title}</a>
-                }
-              </li>
-            ))}
-          </ul>
-        );
-      }
-    }
-
     return (
       <div className="edit_container">
         <div className="edit_wrap">
-          <div className="edit_tools_btn">
+          <div className="edit_tools_btn" style={{height:type === "text"?"":50}} >
             <div className="switch_eidt_btn">
               <Button
                 type={type === "text" ? "primary" : ""}
@@ -142,13 +101,11 @@ class Edit extends Component {
               </Button>
             </div>
             <div className="submit_btn">
-              <Button onClick={this.toPreview}>预览</Button>
-              &nbsp;
               <Button type="primary" onClick={this.saveDoc} >{this.id ? "更新" : "发布"}</Button>
             </div>
           </div>
 
-          <div className="edit_content">
+          <div className="edit_content" style={{paddingTop:type === "text"?"":20}} >
             {type === "text" ? (
               <RichTextEidt id={this.id} ref={this.EditorRef} />
             ) : (
@@ -156,23 +113,7 @@ class Edit extends Component {
             )}
           </div>
         </div>
-        <Modal
-          width="90vw"
-          bodyStyle={{ overflow: "hidden" }}
-          visible={isPreview}
-          onCancel={() => this.setState({ isPreview: false })}
-        >
-          <div className="preview">
-            <div
-              className="preview_content"
-              dangerouslySetInnerHTML={{ __html: docObj.content }}
-            ></div>
-
-            <div className="preview_sideMenu">
-              {docObj.menuList && createMenuNode(docObj.menuList)}
-            </div>
-          </div>
-        </Modal>
+       
         <BackTop />
       </div>
     );

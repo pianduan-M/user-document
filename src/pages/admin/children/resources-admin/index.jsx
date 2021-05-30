@@ -114,7 +114,7 @@ class ResourcesAdmin extends Component {
   
     return (
       <Card title={<Button type="primary" onClick={this.handleAddResources}>添加资源</Button>} className="resources_admin">
-        <Table bordered dataSource={resourceCate && resourceCate.children} rowKey="id" columns={this.columns} />;
+        <Table bordered dataSource={resourceCate && resourceCate.children} rowKey="id" columns={this.columns} />
         {/* 添加资源表单 */}
         <AddForm isModalVisible={isModalVisible} handleCloseModal={this.handleCloseModal} resourcesCate={this.props.resourcesCate}  resource={currentResource} />
       </Card>

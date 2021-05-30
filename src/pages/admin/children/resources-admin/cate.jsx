@@ -121,7 +121,7 @@ class ResourcesCate extends Component {
     const { isModalVisible, addResCateValue } = this.state
     return (
       <Card title={<Button type="primary" onClick={this.handleOpenOrCloseModal('open')}>添加资源分类</Button>} className="resources_admin">
-        <Table bordered dataSource={this.props.resourcesCate} rowKey="name" columns={this.columns} />;
+        <Table bordered dataSource={this.props.resourcesCate} rowKey="name" columns={this.columns} />
 
         <Modal
           title="添加资源分类"

@@ -49,16 +49,16 @@ class Card extends Component {
               {item.tags.length > 0 && (<div className="item__tags_wrap">
                 <span className="tags_icon iconfont icon-biaoqian"></span>
                 {item.tags.map((tag) => (
-                  <a className="tag" key={tag} href={"/tags/" + tag}>
+                  <Link className="tag" key={tag} to={"/tags/" + tag}>
                     {tag}
-                  </a>
+                  </Link>
                 ))}
               </div>)}
               <div className="item__desc">
                 <div className="desc__label">文档描述：</div>
                 <p dangerouslySetInnerHTML={{ __html: item.desc }} ></p>
               </div>
-              <Button type="primary" href={'/doc-detail/' + item.id} >阅读详情</Button>
+              <Button className="card_detail_btn" type="primary"><Link to={'/doc-detail/' + item.id}>阅读详情</Link></Button>
             </Col>
 
           </Row>

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 
+import loadable from '@/utils/loadable'
+
 import { connect } from 'react-redux'
 import { receiveUser } from '@/redux/actions'
 // 头部内容
@@ -11,12 +13,19 @@ import Home from "../home";
 import DocDetail from '../doc-detail'
 // 后台管理
 import Admin from '../admin'
+// const Admin = loadable(() => import("../admin"))
+
 // tag 标签结果页
-import Tags from '../tags'
+const Tags = loadable(() => import("../tags"))
+// import Tags from '../tags'
+
 // 登录
-import Login from '../login/index'
+const Login = loadable(() => import("../login"))
+// import Login from '../login/index'
+
 // 资源
-import Resources from '../resources'
+// import Resources from '../resources'
+const Resources = loadable(() => import("../resources"))
 
 class Layout extends Component {
   constructor(props) {

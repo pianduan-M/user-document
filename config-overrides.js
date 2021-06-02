@@ -4,7 +4,8 @@ const {
   override,
   fixBabelImports,
   addLessLoader,
-  addWebpackAlias
+  addWebpackAlias,
+  addWebpackExternals
 }
   = require('customize-cra')
 
@@ -18,5 +19,11 @@ module.exports = override(
   addLessLoader({ javascriptEnabled: true, modifyVars: { '@primary-color': '#1DA57A' }, }),
   addWebpackAlias({
     '@': path.resolve(__dirname, 'src'),
-  })
+  }),
+  addWebpackExternals([
+    {
+      "showdown":"showdown",
+    },
+    /^antd$/i
+  ])
 );

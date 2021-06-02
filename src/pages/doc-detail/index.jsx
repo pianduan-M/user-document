@@ -12,7 +12,6 @@ class DocDetail extends PureComponent {
 
     const { id } = props.match.params
     this.getDocumentDetail(id)
-    console.log('constructor', props);
     this.state = {
       doc: {},
       active: '',
@@ -38,7 +37,6 @@ class DocDetail extends PureComponent {
     return () => {
       if(type==="toggle"){
         type = !this.state.isOpen
-        console.log(type);
       }
       this.setState({
         isOpen: type

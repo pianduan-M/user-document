@@ -23,7 +23,7 @@ class Login extends Component {
       message.success("登录成功!")
       this.props.history.goBack()
     }else {
-      message.warning('登录失败！账号或密码错误')
+      message.warning(res.msg)
     }
 
   }

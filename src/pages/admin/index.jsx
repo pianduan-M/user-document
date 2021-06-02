@@ -3,16 +3,23 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { Layout } from 'antd';
 import { reqResourcesCate } from '@/api'
 import QcEventEmitter from '@/utils/QcEventEmitter'
+import loadable from '@/utils/loadable'
 
-import AdminDocument from './children/document'
-import ResourcesAdmin from './children/resources-admin'
-import ResourcesCate from './children/resources-admin/cate'
-import AdminSider from '@/components/admin-sider'
+
 // 文档编辑
 import Edit from "./children/edit";
 import './index.less'
 
 import { connect } from 'react-redux'
+import AdminDocument from './children/document'
+// import ResourcesAdmin from './children/resources-admin'
+// import ResourcesCate from './children/resources-admin/cate'
+import AdminSider from '@/components/admin-sider'
+
+const ResourcesAdmin = loadable(() => import("./children/resources-admin"))
+const ResourcesCate = loadable(() => import("./children/resources-admin/cate"))
+// const AdminSider = loadable(() => import("@/components/admin-sider"))
+
 
 
 const { Content } = Layout;
@@ -47,7 +54,7 @@ class Admin extends Component {
     }
     const { userid } = this.props
     if (!userid) {
-      return <Redirect to="/login" />
+      return <Redirect to="/login" push />
     }
     return (
       <div className="admin">

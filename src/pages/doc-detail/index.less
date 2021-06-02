@@ -76,8 +76,6 @@
     .document_title {
       font-size: 28px;
     }
-
-
   }
 
   // 侧边按钮
@@ -92,6 +90,7 @@
     font-size: 16px;
     background-color: #f9f9f9;
     transition: 0.5s transform;
+    width: 300px;
 
     li {
       padding-right: 30px;
@@ -114,29 +113,19 @@
     ul {
       padding-left: 30px;
     }
-
     // 当前点击高亮
     .active {
       color: @primary-color;
     }
 
   }
-
   .open.document_siderMenu {
     width: 80%;
     transform: translateX(0);
   }
 }
-
-// 修正 1000px 左右 内容区位置错误
-@media (max-width: 1024px) {
-  .document_siderMenu {
-    width: 25% !important;
-  }
-}
-
 // 移动端布局
-@media (max-width:750px) {
+@media screen and (max-width:750px) {
   .document_siderMenu {
     transform: translateX(-100%);
 
@@ -155,10 +144,15 @@
     .document_content {
       margin-left: 0px;
       margin: 0 auto;
-
     }
   }
-
-
+}
+@media screen and (max-width:1024px) {
+  .document_detail {
+    margin-right: 50px;
+    .document_siderMenu {
+      width: 200px;
+    }
+  }
 }
 

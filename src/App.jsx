@@ -9,6 +9,8 @@ import './assets/css/iconfont.css'
 import Layout from './pages/layout'
 import { Provider } from 'react-redux'
 import store from './redux/store'
+import ScrollToTop from './components/scrollToTop/scroll-to-top'
+
 
 class App extends Component {
   constructor(props) {
@@ -20,7 +22,9 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Provider store={store}>
-          <Layout />
+          <ScrollToTop>
+            <Layout />
+          </ScrollToTop>
         </Provider>
       </BrowserRouter>
     );

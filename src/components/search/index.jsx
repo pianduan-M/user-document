@@ -4,6 +4,7 @@ import { Input, Modal, Button } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { reqSearch } from '@/api'
 import PropTypes from "prop-types";
+import debounce from '@/utils/debounce.js'
 import "./index.less";
 
 class Search extends Component {
@@ -11,7 +12,8 @@ class Search extends Component {
     super(props);
     this.state = {
       searchValue: '',
-      docs: []
+      docs: [],
+      collects: []
     };
     this.inputRef = React.createRef();
   }
@@ -25,23 +27,32 @@ class Search extends Component {
   toSearch = async (keyword) => {
     if (!keyword) {
       this.setState({
-        docs: []
+        docs: [],
+        collects: []
       })
       return
     }
     const res = await reqSearch(keyword)
-    const docs = res.result
+    const { docs, collectArticles } = res.result
     // 高亮显示
-    docs.map(item => {
+    docs && docs.map(item => {
       const res = new RegExp(keyword, 'i')
       item.title = item.title.replace(res, `<mark>${keyword}</mark>`)
       item.desc = item.desc.replace(res, `<mark>${keyword}</mark>`)
       return item
     })
 
+    collectArticles && collectArticles.map(item => {
+      const res = new RegExp(keyword, 'i')
+      item.name = item.name.replace(res, `<mark>${keyword}</mark>`)
+      item.desc = item.desc.replace(res, `<mark>${keyword}</mark>`)
+      return item
+    })
+
     if (res.code === 0) {
       this.setState({
-        docs: docs
+        docs: docs,
+        collects: collectArticles
       })
     }
   }
@@ -52,13 +63,7 @@ class Search extends Component {
       searchValue: value
     })
 
-    if (this.flag) return
-    this.flag = true
-    this.toSearch(value)
-    setTimeout(() => {
-      this.flag = false
-    }, 200);
-
+    this.debounceFn(value)
   }
 
   // 关闭搜索框
@@ -66,19 +71,22 @@ class Search extends Component {
     const { closeModel } = this.props;
     this.setState({
       searchValue: '',
-      docs: []
+      docs: [],
+      collects: []
     })
     closeModel()
   }
 
   componentDidMount() {
     this.props.createInputRef(this.inputRef);
+    // 防抖函数
+    this.debounceFn = debounce(this.toSearch, 200)
   }
 
 
   render() {
     const { isSearch } = this.props;
-    const { searchValue, docs } = this.state
+    const { searchValue, docs, collects } = this.state
     return (
       <Modal
         forceRender
@@ -111,7 +119,7 @@ class Search extends Component {
         onCancel={this.closeSearch}
         bodyStyle={{ paddingTop: 0, minHeight: 400, overflow: 'hidden' }}
       >
-        {docs.length > 0 ? (
+        {(docs.length || collects.length) > 0 ? (
           <div className="result_main">
             <div className="row">文档</div>
             <ul className="result_list">
@@ -131,6 +139,26 @@ class Search extends Component {
                 </li>
               ))}
             </ul>
+            <div className="collectAtr-wrap">
+              <div className="row">收藏文章</div>
+              <ul className="result_list">
+                {collects.map(collect => (
+                  <li key={collect.id} onClick={this.closeSearch} >
+                    <a href={collect.url}>
+                      <div className="result_item">
+                        <div className="result_icon">
+                          <span className="iconfont icon-caidan"></span>
+                        </div>
+                        <div className="result_content">
+                          <span className="result_title text_hidden" dangerouslySetInnerHTML={{ __html: collect.title }} ></span>
+                          <span className="result_desc text_hidden" dangerouslySetInnerHTML={{ __html: collect.desc }}></span>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         ) : <div className="search_help">
           <span>No recent searches</span>
